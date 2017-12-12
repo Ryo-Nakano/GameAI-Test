@@ -17,10 +17,22 @@ public class BurrelController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		position = Input.mousePosition;//マウスの位置座標を変数positionに格納！
-		position.z = 0;// Z軸修正
-		screenToWorldPointPosition = Camera.main.ScreenToWorldPoint(position);// positionをスクリーン座標→ワールド座標に変換！
-		// ワールド座標に変換されたマウス座標を代入
-		gameObject.transform.position = screenToWorldPointPosition;
+		BurrelControl ();
+
 	}
+
+
+	//======================以下関数集=========================
+
+	void BurrelControl()
+	{
+		position = Input.mousePosition;//マウスの位置座標を変数positionに格納！
+		position.z = 15;// Z軸修正。＊＊マウスの位置座標からの相対位置であることに注意！＊＊
+
+		screenToWorldPointPosition = Camera.main.ScreenToWorldPoint (position);// positionをスクリーン座標→ワールド座標に変換！
+		this.gameObject.transform.up = (screenToWorldPointPosition - transform.position).normalized;
+	}
+
+
+
 }

@@ -16,6 +16,15 @@ public class PlayerController : MonoBehaviour {
 		Move ();
 	}
 
+
+
+
+
+
+
+	//======================以下関数集=========================
+
+
 	//Playerの移動に関する関数
 	void Move()
 	{
