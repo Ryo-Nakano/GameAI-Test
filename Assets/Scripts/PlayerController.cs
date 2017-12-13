@@ -30,12 +30,12 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(Input.GetKey("right"))
 		{
-			this.transform.position += new Vector3 (-moveSpeed * Time.deltaTime, 0, 0);
+			this.transform.position += new Vector3 (moveSpeed * Time.deltaTime, 0, 0);
 		}
 
 		if(Input.GetKey("left"))
 		{
-			this.transform.position += new Vector3 (moveSpeed * Time.deltaTime, 0, 0);
+			this.transform.position += new Vector3 (-moveSpeed * Time.deltaTime, 0, 0);
 		}
 
 		if(Input.GetKey("up"))
