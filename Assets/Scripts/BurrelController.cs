@@ -53,7 +53,7 @@ public class BurrelController : MonoBehaviour {
 		//そうすればthis.transform.up = (任意のベクトル); で終わってた。
 
 
-		if(playerFireTimer > 0.5f)//0.5s毎に撃てる
+		if(playerFireTimer > 0.5f)//0.5s毎に撃つ
 		{
 			Instantiate (playerBullet, spawnPosition, spawnRotation);//弾の生成
 			playerFireTimer = 0;//timerの初期化
