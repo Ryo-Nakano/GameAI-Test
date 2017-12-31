@@ -8,8 +8,10 @@ public class BurrelController : MonoBehaviour {
 	Vector3 position;
 	// スクリーン座標をワールド座標に変換した位置座標
 	Vector3 screenToWorldPointPosition;
+	Vector3 bulletDirection;
 
 	[SerializeField] GameObject playerBullet;//Unity上からアタッチ！
+	[SerializeField] GameObject player;//Unity上あらアタッチ！
 	float playerFireTimer;//Playerが攻撃できる間隔調整
 
 	// Use this for initialization
@@ -28,6 +30,7 @@ public class BurrelController : MonoBehaviour {
 	}
 
 
+
 	//======================以下関数集=========================
 
 
@@ -35,8 +38,9 @@ public class BurrelController : MonoBehaviour {
 	void BurrelControl()
 	{
 		position = Input.mousePosition;//マウスの位置座標を変数positionに格納！
-		position.z = -Camera.main.transform.position.z;// Z軸修正。＊＊マウスの位置座標からの相対位置であることに注意！＊＊
-		//毎回カメラのz座標変えるたびにここの数自分で直すの面倒だからこうした。
+		position.z = Camera.main.transform.position.y - player.transform.position.y;//Z軸修正。＊＊マウスの位置座標からの相対位置であることに注意！＊＊
+		//毎回カメラのy座標変えるたびにここの数自分で直すの面倒だからこうした。
+		//-player.transform.position.yして高さの補正してる
 
 		screenToWorldPointPosition = Camera.main.ScreenToWorldPoint (position);// positionをスクリーン座標→ワールド座標に変換！
 		this.gameObject.transform.up = (screenToWorldPointPosition - transform.position).normalized;

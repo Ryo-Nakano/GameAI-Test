@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\BurrelController.cs" />
+     <Compile Include="Assets\Scripts\EnemyBulletScript.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\PlayerBulletScript.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />

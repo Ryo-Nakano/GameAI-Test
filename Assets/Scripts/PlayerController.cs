@@ -40,12 +40,12 @@ public class PlayerController : MonoBehaviour {
 
 		if(Input.GetKey("up"))
 		{
-			this.transform.position += new Vector3 (0, moveSpeed * Time.deltaTime, 0);
+			this.transform.position += new Vector3 (0, 0, moveSpeed * Time.deltaTime);
 		}
 
 		if(Input.GetKey("down"))
 		{
-			this.transform.position += new Vector3 (0, -moveSpeed * Time.deltaTime, 0);
+			this.transform.position += new Vector3 (0, 0, -moveSpeed * Time.deltaTime);
 		}
 	}
 }
