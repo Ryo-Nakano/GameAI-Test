@@ -12,9 +12,6 @@ public class EnemyController : MonoBehaviour {
 	NavMeshAgent agent;//NavMeshAgent型の変数agentを定義
 
 
-
-
-
 	//===追跡行動・攻撃行動に使う変数===
 	[SerializeField] float chaseInterval;//敵の位置座標更新の頻度司る変数→小さければ小さいほど頻繁に目標地点の更新を行う！
 	Vector3 targetVctor;//Playerがいる方向ベクトルを格納
@@ -31,6 +28,10 @@ public class EnemyController : MonoBehaviour {
 	float loiteringInterval;//徘徊時の目的地更新頻度を司る変数
 	float loiteringTimer;//徘徊行動をコントロールするtimer
 
+	//==攻撃行動に使う変数==
+	float attackTimer;
+	[SerializeField] float attackInterval;//Enemyの攻撃頻度司る変数
+	[SerializeField] GameObject enemyBullet;//EnemyBulletを格納
 
 
 
@@ -144,9 +145,7 @@ public class EnemyController : MonoBehaviour {
 			agent.destination = player.transform.position;//Enemyが向かう目的地を設定！
 			chaseTimer = 0;//timer初期化
 		}
-
-
-
+			
 		//===自力でコード書くスタイル===
 		//敵の方向を向く処理①
 		//実装はできているけど、きれいな、思い描いてるような動きではまだないかなという感じ。
