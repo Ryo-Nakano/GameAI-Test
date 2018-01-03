@@ -12,7 +12,8 @@ public class BurrelController : MonoBehaviour {
 
 	[SerializeField] GameObject playerBullet;//Unity上からアタッチ！
 	[SerializeField] GameObject player;//Unity上あらアタッチ！
-	float playerFireTimer;//Playerが攻撃できる間隔調整
+	float playerFireTimer;
+	[SerializeField] float playerFireInterval;//Playerが攻撃する間隔を司る変数
 
 	// Use this for initialization
 	void Start () {
@@ -23,7 +24,7 @@ public class BurrelController : MonoBehaviour {
 	void Update () {
 
 		playerFireTimer += Time.deltaTime;
-		Fire ();//弾を自動的に0.5s毎に撃つ関数
+//		Fire ();//弾を自動的に撃つ関数(発射間隔はplayerFireIntervalの値に依存)
 
 		BurrelControl ();//Burrelの向きをマウスの位置座標に同期させる関数
 
@@ -34,7 +35,7 @@ public class BurrelController : MonoBehaviour {
 	//======================以下関数集=========================
 
 
-	//Burrelの向き調整する関数
+	//=====Burrelの向き調整する関数=====
 	void BurrelControl()
 	{
 		position = Input.mousePosition;//マウスの位置座標を変数positionに格納！
@@ -47,7 +48,7 @@ public class BurrelController : MonoBehaviour {
 	}
 
 
-	//弾(PlayerBullet)撃つ関数
+	//=====弾(PlayerBullet)撃つ関数=====
 	void Fire()
 	{
 		Vector3 spawnPosition = this.transform.position + ((screenToWorldPointPosition - transform.position).normalized);
@@ -57,7 +58,7 @@ public class BurrelController : MonoBehaviour {
 		//そうすればthis.transform.up = (任意のベクトル); で終わってた。
 
 
-		if(playerFireTimer > 0.5f)//0.5s毎に撃つ
+		if(playerFireTimer > playerFireInterval)//0.5s毎に撃つ
 		{
 			Instantiate (playerBullet, spawnPosition, spawnRotation);//弾の生成
 			playerFireTimer = 0;//timerの初期化

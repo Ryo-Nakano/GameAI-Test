@@ -391,7 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f5b7669a6d74bc1ac7dc11077a69c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 7
 --- !u!4 &511036731
 Transform:
   m_ObjectHideFlags: 0
@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: 747745000}
   - component: {fileID: 747744999}
   - component: {fileID: 747745001}
+  - component: {fileID: 747745002}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -450,7 +451,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c52412760e35042d3b340653d50fbf98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseInterval: 1
+  chaseInterval: 0.3
+  maxChaseDistance: 15
+  maxChaseAngle: 45
+  maxAttackAngle: 3
   levelSize: 10
 --- !u!4 &747745000
 Transform:
@@ -476,7 +480,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 1000
@@ -488,6 +492,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!65 &747745002
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 747744998}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &914810430
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,7 +886,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1640715384}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -927,6 +943,7 @@ MonoBehaviour:
   playerBullet: {fileID: 1228487299976996, guid: 0076f49291b9b45f0be66ee3fecd6203,
     type: 2}
   player: {fileID: 511036729}
+  playerFireInterval: 0.7
 --- !u!1 &1666820607
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,7 +1066,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1862555197}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

@@ -1,41 +1,108 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.AI;//NavMeshを使う為に必要
 
 public class EnemyController : MonoBehaviour {
 
+
+	float testTimer;
+
 	GameObject player;
-
-//	[SerializeField] float speed;//Enemyの移動速度
-//	[SerializeField] float rotationSmooth;//playerの方向く時の滑らかさ(速さ？)を調節
-
-	float timer;
-
-	//追跡行動に使う関数
 	NavMeshAgent agent;//NavMeshAgent型の変数agentを定義
-	[SerializeField] float chaseInterval;//敵の位置座標更新の頻度司る変数→小さければ小さいほど頻繁に目標地点の更新を行う！
-	[SerializeField] float levelSize;//取得する徘徊目的地の自分の位置座標からの範囲を司る→小さければ小さいほど小刻みに移動！
 
-	//徘徊行動に使う変数
+
+
+
+
+	//===追跡行動・攻撃行動に使う変数===
+	[SerializeField] float chaseInterval;//敵の位置座標更新の頻度司る変数→小さければ小さいほど頻繁に目標地点の更新を行う！
+	Vector3 targetVctor;//Playerがいる方向ベクトルを格納
+	float chaseTimer;//追跡行動をコントロールするtimer
+	float angle;//自分の正面方向のベクトルとplayerへの方向ベクトルの角度を格納
+	float distance;//PlayerとEnemyの距離格納
+	[SerializeField] float maxChaseDistance;//Chaseステートに移行する最大距離を定義
+	[SerializeField] float maxChaseAngle;//追跡ステートに移る最大角度を定義
+	[SerializeField] float maxAttackAngle;//攻撃ステートに移る最大角度を定義
+
+	//===徘徊行動に使う変数===
+	[SerializeField] float levelSize;//取得する徘徊目的地の自分の位置座標からの範囲を司る→小さければ小さいほど小刻みに移動！
 	Vector3 loiteringPosition;//徘徊行動時の目的地
 	float loiteringInterval;//徘徊時の目的地更新頻度を司る変数
+	float loiteringTimer;//徘徊行動をコントロールするtimer
+
+
+
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("Player");//HierarcyからPlayerを見つけてきて変数playerの中に格納
-		agent = GetComponent<UnityEngine.AI.NavMeshAgent>();//NavMeshAgentをGetComponent！
-		loiteringInterval = Random.Range(0, 5f);
+		agent = GetComponent<NavMeshAgent>();//NavMeshAgentをGetComponent！
+		loiteringInterval = Random.Range(0, 5f);//徘徊行動の間隔をランダムにリセット
 	}
+
+
 	
 	// Update is called once per frame
 	void Update () {
 
-		timer += Time.deltaTime;
-
+		//timer関係
+		chaseTimer += Time.deltaTime;
+		testTimer += Time.deltaTime;
+		
 		//後はいつどのタイミングでChaseを呼ぶのかをコントロールすればいいだけかな！
-//		Chase ();//追跡行動
-		Loitering();//徘徊行動
+//		Loitering();//徘徊行動
+
+
+		//角度差求める
+		targetVctor = player.transform.position - this.transform.position;//Enemy→Playerの方向ベクトルを出す
+		angle = Vector3.Angle (this.transform.forward, targetVctor);//自分の正面方向のベクトルとplayerへの方向ベクトルの角度を出す(値は絶対値で返ってくる)
+
+		//Playerとの距離を算出
+		distance = (player.transform.position - this.transform.position).magnitude;//magnitudeを使って2点間距離を計算
+//		maxDistance = Vector3.Distance(player.transform.position, this.transform.position);//Vector3.Distanceを使って2点間距離を計算
+		//どっちの書き方でも可
+
+//		Debug.Log (angle);
+//		Debug.Log (distance);
+
+
+		if (distance < maxChaseDistance) {//追跡距離の判定
+
+			//距離条件は満たしているが、角度条件を満たしていない場合→徘徊
+			Loitering ();//徘徊！
+
+			if (angle < maxChaseAngle) {//追跡角度の判定
+				Chase ();//追跡！
+				Debug.Log ("Chase!");
+
+				if (angle < maxAttackAngle) {
+					//攻撃行動のコード
+					Attack ();//攻撃！
+					Debug.Log ("Attack!!!");
+				}
+			}
+		} else 
+		{
+			Loitering ();//徘徊！
+		}
+
+
+
+
+
+
+
+
+
+		if(testTimer > 1.0f)//1秒毎に呼ぶ
+		{
+			//testしたい時にてきとーにここにぶち込む
+			Debug.Log("Distance : " + distance);
+			Debug.Log("Angle : " + angle);
+			testTimer = 0;//testTimerの初期化
+		}
+
 	}
 
 
@@ -44,7 +111,9 @@ public class EnemyController : MonoBehaviour {
 	//==========徘徊行動の関数==========
 	void Loitering()
 	{
-		if(timer > loiteringInterval)//一定時間毎に徘徊目的地の位置座標更新！
+		loiteringTimer += Time.deltaTime;//徘徊行動をコントロールするtimer
+
+		if(loiteringTimer > loiteringInterval)//一定時間毎に徘徊目的地の位置座標更新！
 		{
 			//先ずは徘徊目的地取得
 			loiteringPosition = new Vector3 //自分の位置座標から一定範囲だけ離れた位置をランダムに取得→変数loiteringPositionに格納
@@ -55,12 +124,12 @@ public class EnemyController : MonoBehaviour {
 			
 			if (agent.hasPath == true) { //目的地設定先がNavMesh範囲内だった場合→目的地に設定
 				loiteringInterval = Random.Range (0, 7f);//徘徊目的地の更新を初期化
-				timer = 0;//timerの初期化
-				Debug.Log("Destination Completed");
+				loiteringTimer = 0;//timerの初期化
+				Debug.Log("Destination Completed");//目的地設定完了
 			} 
 			else
 			{
-				Debug.Log ("Destination Failed");
+				Debug.Log ("Destination Failed");//目的地設定失敗→再度徘徊目的地取得へ
 			}
 		}
 	}
@@ -70,10 +139,10 @@ public class EnemyController : MonoBehaviour {
 	void Chase()
 	{
 		//===NavMesh使うスタイル===
-		if(timer > chaseInterval)//一定時間毎に敵の位置座標更新！
+		if(chaseTimer > chaseInterval)//一定時間毎に敵の位置座標更新！
 		{
 			agent.destination = player.transform.position;//Enemyが向かう目的地を設定！
-			timer = 0;//timer初期化
+			chaseTimer = 0;//timer初期化
 		}
 
 
@@ -87,10 +156,10 @@ public class EnemyController : MonoBehaviour {
 
 		//敵の方向を向く処理②
 		//この実装でもできなくはないけど、やっぱちょい動ききもいなあ...
-//		if(timer > 0.1f)
+//		if(chaseTimer > 0.1f)
 //		{
 //		this.transform.rotation = Quaternion.LookRotation((player.transform.position - transform.position).normalized);
-//			timer = 0;
+//			chaseTimer = 0;
 //		}
 
 		//y軸正方向に進む
@@ -100,6 +169,6 @@ public class EnemyController : MonoBehaviour {
 	//==========攻撃行動の関数==========
 	void Attack()
 	{
-		
+		//攻撃行動のコード
 	}
 }
