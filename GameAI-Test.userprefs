@@ -2,11 +2,13 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/EnemyController.cs">
     <Files>
-      <File FileName="Assets/Scripts/EnemyController.cs" Line="78" Column="19" />
       <File FileName="Assets/Scripts/PlayerController.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BurrelController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EnemyController.cs" Line="79" Column="30" />
+      <File FileName="Assets/Scripts/BurrelController.cs" Line="27" Column="55" />
       <File FileName="Assets/Scripts/PlayerBulletScript.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/EnemyBulletScript.cs" Line="1" Column="1" />
+      <File FileName="../BulletTest2/Assets/Scripts/EnemyController.cs" Line="12" Column="73" NotebookId="1" />
+      <File FileName="../BulletTest2/Assets/Scripts/EnemyBulletScript.cs" Line="1" Column="1" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
