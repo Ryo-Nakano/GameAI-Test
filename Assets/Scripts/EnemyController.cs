@@ -6,9 +6,9 @@ using UnityEngine.UI;//Canvas使う為に必要
 
 public class EnemyController : MonoBehaviour {
 
-	[SerializeField] Text testText;//Debug用のtext
-	[SerializeField] Text testText2;//Debug用のtext2
-	[SerializeField] Text testText3;//Debug用のtext3
+//	[SerializeField] Text testText;//Debug用のtext
+//	[SerializeField] Text testText2;//Debug用のtext2
+//	[SerializeField] Text testText3;//Debug用のtext3
 
 	//Enemyの色を変える為の変数
 	Renderer[] renderers;//Rendererを格納しておく為の変数
@@ -58,9 +58,9 @@ public class EnemyController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		testText.text = "AttackTimer : " + attackTimer.ToString();
-		testText2.text = "Distance : " + distance.ToString ();
-		testText3.text = "Angle : " + angle.ToString();
+//		testText.text = "AttackTimer : " + attackTimer.ToString();
+//		testText2.text = "Distance : " + distance.ToString ();
+//		testText3.text = "Angle : " + angle.ToString();
 
 		//timer関係
 		chaseTimer += Time.deltaTime;
@@ -201,5 +201,14 @@ public class EnemyController : MonoBehaviour {
 		}
 
 
+	}
+
+	void OnTriggerEnter(Collider col)
+	{
+		if(col.tag == "PlayerBullet")
+		{
+			Destroy (col.gameObject);
+			Destroy (this.gameObject);
+		}
 	}
 }

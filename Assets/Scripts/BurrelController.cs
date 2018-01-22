@@ -24,7 +24,7 @@ public class BurrelController : MonoBehaviour {
 	void Update () {
 
 		playerFireTimer += Time.deltaTime;
-//		Fire ();//弾を自動的に撃つ関数(発射間隔はplayerFireIntervalの値に依存)
+		Fire ();//弾を自動的に撃つ関数(発射間隔はplayerFireIntervalの値に依存)
 
 		BurrelControl ();//Burrelの向きをマウスの位置座標に同期させる関数
 

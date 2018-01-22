@@ -48,4 +48,20 @@ public class PlayerController : MonoBehaviour {
 			this.transform.position += new Vector3 (0, 0, -moveSpeed * Time.deltaTime);
 		}
 	}
+
+	void OnTriggerEnter(Collider col)
+	{
+		if(col.tag == "EnemyBullet")
+		{
+			Destroy (this.gameObject);
+			Destroy (col.gameObject);
+		}
+
+		if(col.tag == "Enemy")
+		{
+			Destroy (this.gameObject);
+		}
+
+		//破壊のアニメーション
+	}
 }
